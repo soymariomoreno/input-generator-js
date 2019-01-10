@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Actividad 1</title>
+</head>
+<body>
+    <h1>Hola Mundo</h1>
+        <label for="">Número:</label>
+        <input type="text" id="txtNumber" placeholder="Número" value="">
+        <button onclick="submit()">Click</button>
+
+        <div id="container">
+        </div>
+</body>
+
+<script>
+    function submit(){
+        var number = document.getElementById('txtNumber').value;
+        
+        var container = document.getElementById('container');
+
+        console.log('number ====',number);
+
+        if(number === ''){
+            alert('Número vacio');
+        }else {
+            for(var i = 0; i < parseInt(number); i++){
+                console.log('numero', i);
+
+                var input = document.createElement("input");
+                input.setAttribute('type', 'text');
+                input.setAttribute('name', 'number'+i);
+                input.setAttribute('id', 'number'+i);
+
+                var label = document.createElement("label");
+                label.setAttribute('for', 'Numero'+i);
+                label.innerHTML = 'numero'+i;
+
+                container.appendChild(label);
+
+                container.appendChild(input);
+
+                var br = document.createElement("br");
+
+                container.appendChild(br);
+            }
+
+            var button = document.createElement("button");
+            button.setAttribute('type', 'button');
+            button.setAttribute('id', 'numero'+i);
+            button.setAttribute('onclick', 'generar()');
+            button.innerHTML = 'Generar';
+            container.appendChild(button);
+        }
+    }
+
+    function generar(){
+        alert('Generar');
+    }
+</script>
+</html>
