@@ -4,46 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>input-generator-js</title>
+    <title>Actividad 1</title>
 </head>
 <body>
-        <label for="">Número:</label>
-        <input type="text" id="txtNumber" placeholder="Número" value="">
-        <button onclick="submit()">Click</button>
+    <label>Número de palabras:</label>
+    <input type="text" id="txtNumber" placeholder="Número">
 
-        <div id="container">
-        </div>
+    <button onclick="submit()">Crear palabras</button>
+
+    <div id="container"></div>
+
+    <div id="container-table"></div>
 </body>
 
 <script>
+
     function submit(){
         var number = document.getElementById('txtNumber').value;
-        
+
         var container = document.getElementById('container');
 
         console.log('number ====',number);
 
         if(number === ''){
-            alert('Número vacio');
+            alert('Número de palabras vacio');
+        }else if(number < 5){
+            alert('Número de palabras debe ser mayor');
         }else {
             for(var i = 0; i < parseInt(number); i++){
-                console.log('numero', i);
+                console.log('palabra', i);
+
+                var label = document.createElement("label");
+                label.setAttribute('for', 'Palabra'+ (i+1));
+                label.innerHTML = 'palabra '+(i+1);
+                container.appendChild(label);
 
                 var input = document.createElement("input");
                 input.setAttribute('type', 'text');
-                input.setAttribute('name', 'number'+i);
-                input.setAttribute('id', 'number'+i);
-
-                var label = document.createElement("label");
-                label.setAttribute('for', 'Numero'+i);
-                label.innerHTML = 'numero'+i;
-
-                container.appendChild(label);
-
+                input.setAttribute('name', 'palabra'+i);
+                input.setAttribute('id', 'palabra'+i);
                 container.appendChild(input);
 
                 var br = document.createElement("br");
-
                 container.appendChild(br);
             }
 
@@ -57,7 +59,62 @@
     }
 
     function generar(){
-        alert('Generar');
+        var number = document.getElementById('txtNumber').value;
+
+        var longitud = 0;
+        var word;
+
+        for(var i = 0; i < parseInt(number); i++){
+            var palabra = document.getElementById('palabra'+i).value;
+            console.log(palabra.toUpperCase());
+            console.log('longitud',palabra.length);
+
+            if(palabra.length > longitud){
+                longitud = palabra.length;
+
+                word = document.getElementById('palabra'+i).value;
+            }
+        }
+
+        console.log('palabra mayor longitud', longitud);
+        console.log('palabra', word);
+
+        createTable(longitud);
+    }
+
+    function createTable(longitud){
+        var container = document.getElementById('container-table');
+
+        var table = document.createElement('table');
+        table.border = "1";
+        table.width = "300px";
+
+        for (var i = 0; i < longitud; i++) {
+            var tr = document.createElement('tr');
+            table.appendChild(tr);
+
+            for(var j = 0; j < longitud; j++){
+                var word = randomLetter();
+                var th = document.createElement('th');
+                th.setAttribute('id', 'c'+j);
+                th.setAttribute('onclick', 'getWord(\'' + word + '\')');
+                th.innerHTML = word;
+                tr.appendChild(th);
+            }
+        }
+
+        container.appendChild(table);
+    }
+
+    function randomLetter(){
+        var letter = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0,1);
+        console.log(letter);
+        return letter.toUpperCase();
+    }  
+    
+    
+    function getWord(letter){
+        console.log(letter);
     }
 </script>
 </html>
