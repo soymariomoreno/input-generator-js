@@ -59,15 +59,17 @@
     }
 
     function generar(){
-        var number = document.getElementById('txtNumber').value;
+        var numPalabras = document.getElementById('txtNumber').value;
 
         var longitud = 0;
         var word;
 
-        for(var i = 0; i < parseInt(number); i++){
+        for(var i = 0; i < parseInt(numPalabras); i++){
             var palabra = document.getElementById('palabra'+i).value;
             console.log(palabra.toUpperCase());
             console.log('longitud',palabra.length);
+
+            console.log(palabra.toUpperCase().split(''));
 
             if(palabra.length > longitud){
                 longitud = palabra.length;
@@ -79,10 +81,10 @@
         console.log('palabra mayor longitud', longitud);
         console.log('palabra', word);
 
-        createTable(longitud);
+        createTable(longitud, numPalabras);
     }
 
-    function createTable(longitud){
+    function createTable(longitud, numPalabras){
         var container = document.getElementById('container-table');
 
         var table = document.createElement('table');
@@ -93,17 +95,64 @@
             var tr = document.createElement('tr');
             table.appendChild(tr);
 
-            for(var j = 0; j < longitud; j++){
-                var word = randomLetter();
-                var th = document.createElement('th');
-                th.setAttribute('id', 'c'+j);
-                th.setAttribute('onclick', 'getWord(\'' + word + '\')');
-                th.innerHTML = word;
-                tr.appendChild(th);
+            var palabra;
+            var words;
+
+            if( i < numPalabras){
+                palabra = document.getElementById('palabra'+i).value;
+                console.log(palabra.toUpperCase().split(''));
+
+                words = palabra.toUpperCase().split('');
+            }else {
+                words = ""; //randomLetter();
+            }
+
+            vertical(tr, words, i);
+
+            for(var j = 0; j < longitud; j++){                
+                //horizontal(tr, words, j);
             }
         }
 
         container.appendChild(table);
+    }
+
+    function horizontal(tr, words, j){
+        var word = randomLetter();
+
+        var th = document.createElement('th');
+        th.setAttribute('id', 'c'+j);
+        // th.setAttribute('onclick', 'getWord(\'' + word + '\')');
+        //th.innerHTML = word;
+
+        if(words[j] === undefined){
+            // th.setAttribute('onclick', 'getWord(\'' + word + '\')');
+            th.innerHTML = ""; //word;
+        }else {
+            th.setAttribute('onclick', 'getWord(\'' + words[j] + '\')');
+            th.innerHTML = words[j];
+        }
+        
+        tr.appendChild(th);
+    }
+
+    function vertical(tr, words, i){
+        var word = randomLetter();
+
+        var th = document.createElement('th');
+        th.setAttribute('id', 'c'+i);
+        // th.setAttribute('onclick', 'getWord(\'' + word + '\')');
+        //th.innerHTML = word;
+
+        if(words[i] === undefined){
+            // th.setAttribute('onclick', 'getWord(\'' + word + '\')');
+            th.innerHTML = ""; //word;
+        }else {
+            th.setAttribute('onclick', 'getWord(\'' + words[i] + '\')');
+            th.innerHTML = words[i];
+        }
+        
+        tr.appendChild(th);
     }
 
     function randomLetter(){
