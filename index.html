@@ -5,16 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Actividad 1</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <label>Número de palabras:</label>
-    <input type="text" id="txtNumber" placeholder="Número">
+    <div class="container-fluid">
+        <!-- <label>Número de palabras:</label> -->
+        <!-- <input type="text" id="txtNumber" placeholder="Número">
+        <button class="btn btn-primary" onclick="submit()">Crear palabras</button> -->
+        
+        <br>
 
-    <button onclick="submit()">Crear palabras</button>
+        <div id="alert" class="alert alert-danger hidden-alert" role="alert">
+            Número de palabras vacio
+        </div>
 
-    <div id="container"></div>
+        <br>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group mb-3">
+                    <input type="text" id="txtNumber" class="form-control" placeholder="Número de palabras">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="submit()">Crear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="container"></div>
 
-    <div id="container-table"></div>
+        <br>
+
+        <div id="container-table"></div>
+
+
+        <!-- <div class="row">
+            <div class="col-4">
+                input
+            </div>
+            <div class="col-4">
+                    input
+                </div>
+                <div class="col-4">
+                        input
+                    </div>
+        </div> -->
+    </div>
 </body>
 
 <script>
@@ -25,12 +63,16 @@
         var container = document.getElementById('container');
 
         console.log('number ====',number);
+        
+        var alerta = document.getElementById('alert');
 
         if(number === ''){
-            alert('Número de palabras vacio');
+            alerta.classList.remove('hidden-alert');
         }else if(number < 5){
-            alert('Número de palabras debe ser mayor');
+            //alert('Número de palabras debe ser mayor');
         }else {
+            alerta.classList.add('hidden-alert');
+
             for(var i = 0; i < parseInt(number); i++){
                 console.log('palabra', i);
 
@@ -42,6 +84,7 @@
                 var input = document.createElement("input");
                 input.setAttribute('type', 'text');
                 input.setAttribute('name', 'palabra'+i);
+                input.setAttribute('class', 'form-control');
                 input.setAttribute('id', 'palabra'+i);
                 container.appendChild(input);
 
@@ -51,10 +94,14 @@
 
             var button = document.createElement("button");
             button.setAttribute('type', 'button');
-            button.setAttribute('id', 'numero'+i);
+            button.setAttribute('id', 'btnGenerar');
+            button.setAttribute('class', 'btn btn-primary');
             button.setAttribute('onclick', 'generar()');
             button.innerHTML = 'Generar';
             container.appendChild(button);
+
+            var br = document.createElement("br");
+            container.appendChild(br);
         }
     }
 
@@ -64,10 +111,17 @@
         var longitud = 0;
         var word;
 
+        var button = document.getElementById('btnGenerar');
+        button.disabled = true;
+
         for(var i = 0; i < parseInt(numPalabras); i++){
             var palabra = document.getElementById('palabra'+i).value;
             console.log(palabra.toUpperCase());
             console.log('longitud',palabra.length);
+
+            // var txtPalabra = document.getElementById('palabra0');
+            // txtPalabra.disabled = true;
+            // txtPalabra.setAttribute('style','color:red');
 
             console.log(palabra.toUpperCase().split(''));
 
@@ -90,6 +144,7 @@
         var table = document.createElement('table');
         table.border = "1";
         table.width = "300px";
+        table.setAttribute('class','table');
 
         for (var i = 0; i < longitud; i++) {
             var tr = document.createElement('tr');
@@ -107,10 +162,10 @@
                 words = ""; //randomLetter();
             }
 
-            vertical(tr, words, i);
+            //vertical(tr, words, i);
 
             for(var j = 0; j < longitud; j++){                
-                //horizontal(tr, words, j);
+                horizontal(tr, words, j);
             }
         }
 
@@ -166,4 +221,7 @@
         console.log(letter);
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
 </html>
